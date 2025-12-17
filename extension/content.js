@@ -21,13 +21,20 @@ function extractEmailContent() {
         if (rawText && rawText !== lastProcessedText) {
             lastProcessedText = rawText;
             
+            // --- THE NEW PART ---
+            // Run the Privacy Engine
+            const sanitizedText = AegisPrivacy.redact(rawText);
+            // --------------------
+
             console.log("----------------------------------------------------");
-            console.log("🟢 AEGIS-X: NEW EMAIL DETECTED");
+            console.log("🛡️ AEGIS-X PRIVACY ENGINE ACTIVE");
             console.log("----------------------------------------------------");
-            console.log(rawText.substring(0, 100) + "..."); // Print first 100 chars
+            console.log("RAW INPUT (Visible to User):");
+            console.log(rawText.substring(0, 100) + "..."); 
+            console.log("\n");
+            console.log("SANITIZED OUTPUT (Safe for AI):");
+            console.log(sanitizedText); 
             console.log("----------------------------------------------------");
-            
-            // TODO: Tomorrow we will send 'rawText' to the Sanitizer here.
         }
     }
 }
