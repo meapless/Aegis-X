@@ -1,3 +1,28 @@
+async function analyzeWithAI(safeText) {
+    try {
+        const response = await fetch("http://localhost:8000/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ text: safeText })
+        });
+
+        // The Python backend now returns a direct JSON object, no need to JSON.parse() again.
+        const verdict = await response.json(); 
+
+        console.log("🤖 AI VERDICT:", verdict);
+        
+        if (verdict.is_threat) {
+            // Simple alert for now - UI Injection coming Day 4
+            alert(`⚠️ AEGIS-X ALERT: ${verdict.reason}`);
+        }
+
+    } catch (error) {
+        console.error("AI Connection Error:", error);
+    }
+}
+
 console.log("Aegis-X: Content Script Loaded. Waiting for user to open an email...");
 
 // Configuration
@@ -33,6 +58,8 @@ function extractEmailContent() {
             console.log(rawText.substring(0, 100) + "..."); 
             console.log("\n");
             console.log("SANITIZED OUTPUT (Safe for AI):");
+            // Send to Backend
+            analyzeWithAI(sanitizedText);
             console.log(sanitizedText); 
             console.log("----------------------------------------------------");
         }
