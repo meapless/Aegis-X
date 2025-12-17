@@ -68,7 +68,7 @@ def analyze_email(request: EmailRequest):
     try:
         # --- NEW SDK CALL ---
         response = client.models.generate_content(
-            model='gemini-2.0-flash-exp', # Or 'gemini-1.5-flash' if 2.0 isn't available to you yet
+            model='Gemini 2.5 flash-lite', # Or 'gemini-1.5-flash' if 2.0 isn't available to you yet
             contents=prompt_text,
             config=types.GenerateContentConfig(
                 response_mime_type='application/json' 
